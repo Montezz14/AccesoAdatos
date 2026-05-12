@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Empleados - HR Spring</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav class="navbar">
+    <div class="logo">🚀 HR SPRING SOLUTIONS</div>
+    <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="employees.html" class="active">Empleados</a></li>
+        <li><a href="/logout" class="logout-btn">Salir</a></li>
+    </ul>
+</nav>
+
+<div class="container" style="margin-top: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>👤 Gestión de Empleados</h2>
+        <a href="index.html" class="btn-secondary" style="text-decoration: none;">← Volver</a>
+    </div>
+
+    <!-- Formulario para crear/editar empleados -->
+    <div class="card form-container">
+        <h3 id="formTitle">➕ Nuevo Empleado</h3>
+        <input type="hidden" id="empId">
+        
+        <div class="form-grid">
+            <div>
+                <label>Nombre:</label>
+                <input type="text" id="firstName" placeholder="Ej. Steven" required>
+            </div>
+            <div>
+                <label>Apellidos:</label>
+                <input type="text" id="lastName" placeholder="Ej. King" required>
+            </div>
+            <div>
+                <label>Email:</label>
+                <input type="email" id="email" placeholder="steven.king@company.com" required>
+            </div>
+            <div>
+                <label>Teléfono:</label>
+                <input type="text" id="phoneNumber" placeholder="515.123.4567">
+            </div>
+            <div>
+                <label>Fecha de Contratación:</label>
+                <input type="date" id="hireDate" required>
+            </div>
+            <div>
+                <label>Salario:</label>
+                <input type="number" id="salary" placeholder="0.00" step="0.01" required>
+            </div>
+            <div>
+                <label>Job ID:</label>
+                <input type="text" id="jobId" value="IT_PROG" placeholder="Ej. IT_PROG" required>
+            </div>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <button class="btn-primary" onclick="guardarEmpleado()">💾 Guardar</button>
+            <button class="btn-secondary" onclick="limpiarFormulario()">❌ Limpiar</button>
+        </div>
+    </div>
+
+    <!-- Tabla de empleados -->
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>📋 Listado de Personal</h3>
+            <button class="btn-secondary" onclick="cargarEmpleados()">🔄 Refrescar</button>
+        </div>
+        
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Completo</th>
+                    <th>Email</th>
+                    <th>Salario</th>
+                    <th>Puesto</th>
+                    <th style="text-align: center;">Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="tablaEmpleados">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>&copy; 2024 HR Spring Solutions. Sistema de Gestión de Recursos Humanos.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

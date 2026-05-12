@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Spring Solutions - Portal Principal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav class="navbar">
+    <div class="logo">🚀 HR SPRING SOLUTIONS</div>
+    <ul class="nav-links">
+        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="employees.html">Empleados</a></li>
+        <li><a href="/logout" class="logout-btn">Salir</a></li>
+    </ul>
+</nav>
+
+<header class="hero">
+    <div class="hero-content">
+        <h1>Bienvenido al Sistema de Gestión HR</h1>
+        <p>Administra empleados, departamentos y ubicaciones de forma eficiente.</p>
+    </div>
+</header>
+
+<div class="container dashboard-grid">
+    <a href="employees.html" class="card module-card">
+        <div class="icon">👥</div>
+        <h3>Empleados</h3>
+        <p>Gestión completa de personal. Crea, actualiza y elimina empleados.</p>
+        <span class="status active">Disponible</span>
+    </a>
+
+    <div class="card module-card disabled">
+        <div class="icon">🏢</div>
+        <h3>Departamentos</h3>
+        <p>Administra la estructura organizativa.</p>
+        <span class="status">Próximamente</span>
+    </div>
+
+    <div class="card module-card disabled">
+        <div class="icon">📍</div>
+        <h3>Ubicaciones</h3>
+        <p>Gestiona oficinas y direcciones.</p>
+        <span class="status">Próximamente</span>
+    </div>
+
+    <div class="card module-card disabled">
+        <div class="icon">💼</div>
+        <h3>Puestos de Trabajo</h3>
+        <p>Define roles y escalas salariales.</p>
+        <span class="status">Próximamente</span>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>&copy; 2024 HR Spring Solutions. Desarrollado con Spring Boot 3.3.0 y JPA/Hibernate.</p>
+</footer>
+</body>
+</html>
