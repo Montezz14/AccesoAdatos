@@ -1,55 +1,73 @@
-package com.accdatos.tema5.servicios;
+-- =====================================================================
+--  ACTIVIDAD 5.1 - Creacion de la base de datos proyecto_orm
+--  Correspondencia objeto-relacional a partir de tablas
+-- =====================================================================
 
-import com.accdatos.tema5.pojos.Departamento;
-import com.accdatos.tema5.pojos.Empleado;
-import com.accdatos.tema5.pojos.Sede;
-import com.accdatos.tema5.repositorios.DepartamentoRepository;
-import com.accdatos.tema5.repositorios.EmpleadoRepository;
-import com.accdatos.tema5.repositorios.SedeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+-- Creamos la base de datos si no existe y la seleccionamos
+CREATE DATABASE IF NOT EXISTS proyecto_orm
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
 
-// ACTIVIDAD 5.4
-// Servicio que crea una sede, un departamento y un empleado de ejemplo
-@Service
-public class SetupInicialService {
+USE proyecto_orm;
 
-    @Autowired
-    private SedeRepository sedeRepository;
+-- ---------------------------------------------------------------------
+--  Tabla sede: cada sede tiene un id autoincremental y un nombre
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS sede (
+    id_sede  INT AUTO_INCREMENT PRIMARY KEY,
+    nom_sede VARCHAR(100) NOT NULL
+);
 
-    @Autowired
-    private DepartamentoRepository departamentoRepository;
+-- ---------------------------------------------------------------------
+--  Tabla departamento: pertenece a una sede (clave foranea id_sede)
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS departamento (
+    id_depto  INT AUTO_INCREMENT PRIMARY KEY,
+    nom_depto VARCHAR(100) NOT NULL,
+    id_sede   INT NOT NULL,
+    CONSTRAINT fk_depto_sede FOREIGN KEY (id_sede) REFERENCES sede(id_sede)
+);
 
-    @Autowired
-    private EmpleadoRepository empleadoRepository;
+-- ---------------------------------------------------------------------
+--  Tabla empleado: la clave primaria es el DNI; pertenece a un depto
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS empleado (
+    dni      VARCHAR(9) PRIMARY KEY,
+    nom_emp  VARCHAR(100) NOT NULL,
+    id_depto INT NOT NULL,
+    CONSTRAINT fk_emp_depto FOREIGN KEY (id_depto) REFERENCES departamento(id_depto)
+);
 
-    // @Transactional garantiza que si algo falla, se deshace todo (rollback)
-    @Transactional
-    public void crearDatosDeEjemplo() {
-        System.out.println("--- ACTIVIDAD 5.4: CREANDO DATOS DE EJEMPLO ---");
+-- ---------------------------------------------------------------------
+--  Tabla proyecto (actividad 5.7)
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS proyecto (
+    id_proy      INT AUTO_INCREMENT PRIMARY KEY,
+    nom_proy     VARCHAR(100) NOT NULL,
+    fecha_inicio DATE
+);
 
-        // 1. Creamos la sede y la guardamos para obtener su ID autogenerado
-        Sede sede = new Sede();
-        sede.setNomSede("Madrid Central");
-        Sede sedeGuardada = sedeRepository.saveAndFlush(sede);
-        System.out.println(">> Sede creada: " + sedeGuardada);
+-- ---------------------------------------------------------------------
+--  Tabla intermedia proyecto_sede: relacion N:M entre proyecto y sede
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS proyecto_sede (
+    id_proy INT NOT NULL,
+    id_sede INT NOT NULL,
+    PRIMARY KEY (id_proy, id_sede),
+    CONSTRAINT fk_ps_proyecto FOREIGN KEY (id_proy) REFERENCES proyecto(id_proy),
+    CONSTRAINT fk_ps_sede     FOREIGN KEY (id_sede) REFERENCES sede(id_sede)
+);
 
-        // 2. Creamos el departamento vinculado a esa sede
-        Departamento depto = new Departamento();
-        depto.setNomDepto("Tecnologia");
-        depto.setSede(sedeGuardada);
-        Departamento deptoGuardado = departamentoRepository.saveAndFlush(depto);
-        System.out.println(">> Departamento creado: " + deptoGuardado);
+-- ---------------------------------------------------------------------
+--  Tabla empleado_datos_prof (actividad 5.7): datos profesionales,
+--  comparte clave primaria con empleado (relacion 1:1)
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS empleado_datos_prof (
+    dni       VARCHAR(9) PRIMARY KEY,
+    categoria VARCHAR(10),
+    sueldo    DOUBLE,
+    CONSTRAINT fk_datos_empleado FOREIGN KEY (dni) REFERENCES empleado(dni)
+);
 
-        // 3. Creamos el empleado vinculado al departamento
-        Empleado emp = new Empleado();
-        emp.setDni("12345678A");
-        emp.setNomEmp("Ana Lopez");
-        emp.setDepartamento(deptoGuardado);
-        empleadoRepository.save(emp);
-        System.out.println(">> Empleado creado: " + emp);
-
-        System.out.println("--- DATOS DE EJEMPLO CREADOS CON EXITO ---");
-    }
-}
+-- Comprobacion: mostramos las tablas creadas
+SHOW TABLES;
